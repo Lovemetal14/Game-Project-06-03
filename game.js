@@ -9,11 +9,16 @@ const Game = {
     player: undefined,
     //obstacles:[],
     keys: {
-        TOP: false,
-        SPACE: false,
-        LEFT: false,
+        TOP: 38,
+        SPACE: 32,
+        LEFT: 37,
+        RIGHT:39,
+      },
+    /*keys: {
         RIGHT: false,
-    },
+        LEFT: false,
+        RIGHT: false, 
+    },*/
 
     init() {
         this.canvas = document.getElementById("myCanvas");
@@ -38,13 +43,14 @@ const Game = {
             this.clear()
             this.drawAll()
 
+
             this.framesCounter > 5000 ? this.framesCounter = 0 : this.framesCounter++
 
        }, 1000 / this.FPS)
     },
 
     reset() {
-        this.background = new Background(this.ctx, this.width, this.height, "./img/Fondo0.png");
+        this.background = new Background(this.ctx, this.width, this.height, "./img/Fondo0b.png");
         this.player = new Player(this.ctx, this.width, this.height, this.keys);
         
         alert("inicia juego")
