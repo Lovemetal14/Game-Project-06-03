@@ -8,10 +8,10 @@ class Background {
         this.image = new Image();
         this.image.src = imgSource;
 
-        this.posX = 0;
-        this.posY = 0;
+        this.posX = 0;   //german en el video: this.canvas.posX
+        this.posY = 0;   //german en el video: this.canvas.posY
 
-        this.velX = 1;
+        this.velX = 1;   //german en el video: this.canvas.velX
     }
 
     draw() {
