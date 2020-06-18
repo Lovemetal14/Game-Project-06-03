@@ -2,7 +2,7 @@ class Background {
 
     constructor(ctx, w, h, imgSource) {
         this.ctx = ctx;
-        this.width = w;
+        this.width = w; //this cnvasSize = {w:w, h:h}¿?
         this.height = h;
 
         this.image = new Image();

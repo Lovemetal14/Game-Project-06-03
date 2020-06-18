@@ -5,7 +5,8 @@ class Obstacle {
         this.height = this.width;
 
         this.posX = gameWidth;
-        this.posY = playerPosY0 + PlayerHeight - this.height;
+        this.posY = 750; //playerPosY0 + PlayerHeight - this.height;
+
 
         //añadir imagen a los obstaculos:
 
@@ -13,8 +14,10 @@ class Obstacle {
          this.image.src = "./img/Gorilla5.png"
          this.image.frames = 5;
          this.image.framesIndex = 0;
-
-
+         this.enemyW= 401
+         this.enemyH= 55
+         this.spriteWidth = this.enemyW/this.image.frames
+        //console.log("ancho sprite: " + this.spriteWidth)
         this.velX = 7;
     }
 
@@ -39,7 +42,9 @@ class Obstacle {
             this.height);
 
         this.animate(framesCounter)
-
+        let spriteWidth = Math.floor(this.image.width / this.image.frames)
+        
+        console.log("ancho sprite: " + spriteWidth)
         this.move()
 
     }
@@ -59,6 +64,7 @@ move() {
         this.posX -= this.velX;
     }
 }
+
 
 
 // DAYAN MODE:

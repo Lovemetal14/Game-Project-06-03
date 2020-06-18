@@ -115,4 +115,23 @@
 
 // }
 
+////////////////////////////////////////////////////BASURA/////////////////////////////////////////////////////
+
+
+//LINEAS 26-37 DE BULLETS:
+
+      /*draw() {
+
+            this.ctx.beginPath();
+            this.ctx.fillStyle = "red";            
+            this.ctx.fillRect(this.posX, this.posY, 40, 20, 15, 5);
+            //new Image = drawImage ne vezde lo de abajo
+            this.ctx.fill(),
+                this.ctx.closePath(),
+                //ojo insertar imagen de ladrillo!
+                this.move()
+
+        }*/
+
+
 

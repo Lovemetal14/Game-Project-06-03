@@ -12,10 +12,10 @@ class Bullets {
         this.width = 50;
         this.height = 50;
 
-          this.image = new Image()
-          this.image.src = "./img/ladrilo_gira.png"
-          this.image.frames = 3;
-          this.image.framesIndex = 0;
+        this.image = new Image()
+        this.image.src = "./img/ladrilo_gira.png"
+        this.image.frames = 3;
+        this.image.framesIndex = 0;
 
         this.velX = 30;
         this.velY = 1;
@@ -23,22 +23,10 @@ class Bullets {
         this.gravity = 1;
     }
             
-        /*draw() {
-
-            this.ctx.beginPath();
-            this.ctx.fillStyle = "red";
-            this.ctx.fillRect(this.posX, this.posY, 40, 20, 15, 5);
-            //new Image = drawImage ne vezde lo de abajo
-            this.ctx.fill(),
-                this.ctx.closePath(),
-                //ojo insertar imagen de ladrillo!
-                this.move()
-
-        }*/
     
     draw(framesCounter) {         
     
-    this.ctx.drawImage(
+      this.ctx.drawImage(
         this.image,
         this.image.framesIndex * Math.floor(this.image.width / this.image.frames),
         0,
@@ -49,7 +37,7 @@ class Bullets {
         this.width,
         this.height);
         
-    this.animate(framesCounter)
+      this.animate(framesCounter)
      
     this.move()
     }
@@ -67,13 +55,15 @@ class Bullets {
     move() {
         this.posX += this.velX;
         this.posY += this.velY;
-        console.log("posY ladrillo:" + this.posY)
+        //console.log("posY ladrillo:" + this.posY)
         
 
         this.velY += this.gravity;
         
         if (this.posY >= this.playerPosY0 + this.playerHeight) {
-            this.velY = 0 ;
+            this.velY = -1 ;
         }
+
+       
     }
 }
