@@ -8,12 +8,12 @@ class Bullets {
 
         this.playerPosY0 = playerPosY0;
         this.playerHeight = playerHeight;
-        
+
         this.width = 50;
         this.height = 50;
 
         this.image = new Image()
-        this.image.src = "./img/ladrilo_gira.png"
+        this.image.src = "./img/ladrillo_gira.png"
         this.image.frames = 3;
         this.image.framesIndex = 0;
 
@@ -22,24 +22,24 @@ class Bullets {
 
         this.gravity = 1;
     }
-            
-    
-    draw(framesCounter) {         
-    
-      this.ctx.drawImage(
-        this.image,
-        this.image.framesIndex * Math.floor(this.image.width / this.image.frames),
-        0,
-        Math.floor(this.image.width / this.image.frames),
-        this.image.height,
-        this.posX,
-        this.posY,
-        this.width,
-        this.height);
-        
-      this.animate(framesCounter)
-     
-    this.move()
+
+
+    draw(framesCounter) {
+
+        this.ctx.drawImage(
+            this.image,
+            this.image.framesIndex * Math.floor(this.image.width / this.image.frames),
+            0,
+            Math.floor(this.image.width / this.image.frames),
+            this.image.height,
+            this.posX,
+            this.posY,
+            this.width,
+            this.height);
+
+        this.animate(framesCounter)
+
+        this.move()
     }
 
     animate(framesCounter) {
@@ -55,15 +55,13 @@ class Bullets {
     move() {
         this.posX += this.velX;
         this.posY += this.velY;
-        //console.log("posY ladrillo:" + this.posY)
-        
-
         this.velY += this.gravity;
         
         if (this.posY >= this.playerPosY0 + this.playerHeight) {
             this.velY = -1 ;
         }
-
-       
+               
     }
+
+
 }

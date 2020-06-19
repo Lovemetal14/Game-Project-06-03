@@ -3,30 +3,25 @@ const Game = {
     ctx: undefined,
     width: undefined,
     height: undefined,
-    FPS: 30, //60¿?
+    FPS: 60,
     framesCounter: 0,
     background: undefined,
     player: undefined,
     obstacles:[],
+    platform:[],
     score: 0,
-    live: 100,
+    live: 200,
+    sound: document.getElementById('zasSound'),
     keys: {
         TOP: 38,
         SPACE: 32,
         LEFT: 37,
         RIGHT:39,
       },
-    /*keys: {
-        top: false,
-        left: false,
-        right: false,
-        space: 32,
-    },*/
 
     init() {
         this.canvas = document.getElementById("myCanvas");
         this.ctx = this.canvas.getContext("2d");
-        //this.image = this.ctx.drawImage();
         this.setDimensions();
         this.start();
     },
@@ -46,23 +41,24 @@ const Game = {
 
             this.clear()
             this.drawAll()
-            //this.drawBrick ("./img/brick.png")
-
+            
             this.generateObstacles();
             this.clearObstacles();
 
-            
+            //this.generatePlatform(); //Sin platamormas
+            //this.clearPlatform();
+           
+           
             this.bulletTouchEnemie ();
             this.framesCounter > 5000 ? this.framesCounter = 0 : this.framesCounter++
             
             this.isCollision() ? this.live -= 10 : null
-            //this.isCollision() ? this.gameOver() : null
-                            // ==== true, con el tem colisiones
+           
        }, 1000 / this.FPS)
     },
 
     reset() {
-        this.background = new Background(this.ctx, this.width, this.height, "./img/Fondo0b.png");
+        this.background = new Background(this.ctx, this.width, this.height, "./img/Fondo definitivo.png");
         this.player = new Player(this.ctx, this.width, this.height, this.keys);
         this.obstacles = [];
 
@@ -73,33 +69,31 @@ const Game = {
     drawAll(){
         this.background.draw()
         this.player.draw(this.framesCounter)
+        this.platform.forEach(plat => plat.draw(this.framesCounter))
         this.obstacles.forEach(obs => obs.draw(this.framesCounter))
+
         this.drawScore();
         this.drawLive();
        },
 
     drawScore() {
-        /* this.obstacles.forEach(obs => {
-             if (obs.posY === this.car.posY) {
-                 this.score++
-             }
-         })*/
-         this.ctx.font = "30px sans-serif"
+         this.ctx.font = "40px arial"
          this.ctx.fillStyle = 'white'
          this.ctx.fillText(`SCORE:${this.score}`, 50, this.height - 55)
      },
 
      drawLive() {
-        /* this.obstacles.forEach(obs => {
-             if (obs.posY === this.car.posY) {
-                 this.score++
-             }
-         })*/
-         this.ctx.font = "30px sans-serif"
+      
+         this.ctx.font = "40px sans-serif" 
          this.ctx.fillStyle = 'white'
          this.ctx.fillText(`LIVE:${this.live}`, 300, this.height - 55)
      },
 
+     drawGameOver() {
+        this.ctx.font = "150px sans-serif"
+        this.ctx.fillStyle = 'red'
+         this.ctx.fillText("¡¡GAME OVER!!", 200, this.height - 500)
+    },
 
 
     clear() { 
@@ -112,64 +106,71 @@ const Game = {
          }},
 
     clearObstacles() {
-    this.obstacles = this.obstacles.filter(obs => obs.posX >= 0)
+    this.obstacles = this.obstacles.filter(obs => obs.posX >= -100)
    },
 
-
- 
-    
-    
-                            //pos -> obstacles 
-                            //pos2 -> bullets
-                            //pos2.posX     
-                            //playerHeight -> this.player.height
-// anchura del sprite --> Math.floor(this.image.width / this.image.frames)
-
-     bulletTouchEnemie(){ //this.bullets this.obstacles
-        //console.log(this.obstacles)
-        //console.log(this.player.bullets)
-        for (let i = 0; i < this.obstacles.length; i++) {
-            let pos = this.obstacles[i];
-            for (let j = 0; j < this.player.bullets.length; j++) {
-                let pos2 = this.player.bullets[j];
-
-            console.log("posicion obstacle" + pos.posX)
-                
-                if (pos.posX + pos.image.width / 5 > pos2.posX &&            
-                    pos.posX < pos2.posX + pos2.height &&
-                    pos.posY + pos.image.width > pos2.posY &&             
-                    pos.posY < pos2.posY + pos2.height) {
-                                            
-
-                    // Remove the enemy
-                    this.obstacles.splice(i, 1);
-                    i--;
-                    this.score += 50;
-                    console.log(this.score)
-                    this.player.bullets.splice(j, 1); 
-                    break;
-                }
-            }
-        }
-
+    generatePlatform() {
+        if (this.framesCounter % 300 === 0) {
+            this.platform.push(new Platform(this.ctx, this.width, this.player.posY0, this.player.height));
+            
+        } 
     },
+
+    clearPlatform() {
+        this.platform = this.platform.filter(plat => plat.posX >= -100) 
+    },                                                      
+
+
+     bulletTouchEnemie(){ 
      
-    isCollision() { //esta misma nos vale tambien para los enemigos
-        return this.obstacles.some(obs => {
-            return (
-                this.player.posX + this.player.width >= obs.posX &&
-                this.player.posY + this.player.height >= obs.posY &&
-                this.player.posX <= obs.posX + obs.width
-            );
-        });
-    },
+        for (let i = 0; i < this.obstacles.length; i++) {
+        let pos = this.obstacles[i];
+        for (let j = 0; j < this.player.bullets.length; j++) {
+        let pos2 = this.player.bullets[j];
+                
+        if (pos.posX + pos.image.width > pos2.posX &&            
+        pos.posX < pos2.posX + pos2.height &&
+        pos.posY + pos.image.width > pos2.posY &&             
+        pos.posY < pos2.posY + pos2.height) {
+
+                    
+        this.obstacles.splice(i, 1);
+        i--;
+        this.sound.volume = 0.1
+        this.sound.play()
+        
+        this.score += 50;
+                  
+        this.player.bullets.splice(j, 1); 
+        break;
+                   
+         }
+        }}
+       },
+     
+    isCollision() { 
+        this.obstacles.some(obs => {
+        if (
+        this.player.posX + this.player.width >= obs.posX &&
+        this.player.posY + this.player.height >= obs.posY &&
+        this.player.posX <= obs.posX + obs.width
+        ){
+        this.obstacles = this.obstacles.filter(cv => cv !== obs)
+        this.live -= 10
+        if (this.live == 0){
+
+        this.drawGameOver();  
+        this.gameOver();
+                 
+        }}             
+           
+    });},
 
     gameOver() {
         clearInterval(this.interval);
     },
-
-
 };
+
 
 
 

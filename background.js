@@ -2,16 +2,16 @@ class Background {
 
     constructor(ctx, w, h, imgSource) {
         this.ctx = ctx;
-        this.width = w; //this cnvasSize = {w:w, h:h}¿?
+        this.width = w; 
         this.height = h;
 
         this.image = new Image();
         this.image.src = imgSource;
 
-        this.posX = 0;   //german en el video: this.canvas.posX
-        this.posY = 0;   //german en el video: this.canvas.posY
+        this.posX = 0;   
+        this.posY = 0;   
 
-        this.velX = 1;   //german en el video: this.canvas.velX
+        this.velX = 1;   
     }
 
     draw() {
